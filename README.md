@@ -1,36 +1,140 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# StockPilot IMS — Enterprise Inventory & Retail Management System
 
-## Getting Started
+A complete full-stack inventory management system built with Next.js, TypeScript, Tailwind CSS, Prisma, and PostgreSQL.
 
-First, run the development server:
+## Features
+
+- **Multi-tenant architecture** with organization and branch isolation
+- **Role-based access control** with 8 roles (Super Admin, Owner, Shopkeeper, Inventory Manager, Staff, Procurement, Accountant, Auditor)
+- **Product management** with categories, SKUs, barcodes, variants, batches, and expiry tracking
+- **Inventory ledger** with stock movements, transfers, counts, adjustments, and reservations
+- **Point of Sale (POS)** with cart management, barcode search, multiple payment methods, and invoice generation
+- **Procurement** with suppliers, purchase requisitions, purchase orders, and goods receipts
+- **Sales & Returns** with refund workflows and payment tracking
+- **Finance** with expenses, payments, revenue, COGS, and profit tracking
+- **Analytics & Reports** with charts, top products, branch comparisons, and ABC analysis
+- **Notifications** with low-stock, expiry, and approval alerts
+- **Audit logging** for all sensitive operations
+- **Demo data** with realistic Indian retail sample records
+
+## Tech Stack
+
+- **Frontend**: Next.js 16 (App Router), TypeScript, Tailwind CSS, shadcn/ui, Recharts
+- **Backend**: Next.js Server Actions & API Routes, Prisma ORM
+- **Database**: PostgreSQL 16
+- **Auth**: NextAuth v5 (Credentials provider, JWT sessions)
+- **Validation**: Zod
+
+## Prerequisites
+
+- Node.js 22+
+- PostgreSQL 16+
+- npm
+
+## Quick Start
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Set up environment
+
+```bash
+cp .env.example .env
+# Edit .env with your database credentials
+```
+
+### 3. Set up database
+
+```bash
+# Create database
+createdb stockpilot_ims
+
+# Run migrations
+npx prisma migrate dev
+
+# Seed demo data
+npx prisma db seed
+```
+
+### 4. Start the application
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Demo Credentials
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+All demo accounts use the password: `Demo@12345`
 
-## Learn More
+| Role | Email |
+|------|-------|
+| Owner | owner@urbanmart.demo |
+| Shopkeeper | shopkeeper@urbanmart.demo |
+| Inventory Manager | inventory@urbanmart.demo |
+| Staff | staff@urbanmart.demo |
+| Procurement | procurement@urbanmart.demo |
+| Accountant | accountant@urbanmart.demo |
+| Auditor | auditor@urbanmart.demo |
+| Super Admin | admin@urbanmart.demo |
 
-To learn more about Next.js, take a look at the following resources:
+Visit [http://localhost:3000/demo-access](http://localhost:3000/demo-access) for one-click login buttons.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Docker Setup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+docker compose up -d
+```
 
-## Deploy on Vercel
+## Environment Variables
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+See `.env.example` for all configuration options.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Testing
+
+```bash
+npm run build   # Type check and build
+npm run lint    # Lint code
+```
+
+## Project Structure
+
+```
+src/
+├── app/                    # Next.js App Router pages
+│   ├── (app)/             # Authenticated app routes
+│   ├── (auth)/            # Login and demo access
+│   ├── (unauthorized)/    # Unauthorized page
+│   └── api/               # API routes
+├── components/            # Reusable UI components
+├── lib/                   # Utilities, auth, permissions, db
+└── types/                 # TypeScript type definitions
+prisma/
+├── schema.prisma          # Database schema
+├── migrations/            # Database migrations
+└── seed.ts                # Seed script
+```
+
+## Security
+
+- Passwords hashed with bcrypt (12 rounds)
+- Server-side authorization for every protected operation
+- Organization and branch data isolation
+- Rate limiting on authentication endpoints
+- Audit logging for sensitive actions
+- Secure cookie settings
+
+## Known Limitations
+
+- Email notifications are behind a configurable adapter (not configured in demo)
+- Payment processing is simulated in demo mode
+- AI forecasting uses transparent baseline methods, not trained models
+- Offline PWA strategy is defined but not fully implemented
+
+## License
+
+MIT
